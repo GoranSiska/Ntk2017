@@ -1,4 +1,4 @@
-﻿using Moq;
+﻿using NSubstitute;
 using NUnit.Framework;
 
 namespace Refactorings.TestClasses.Business
@@ -41,9 +41,8 @@ namespace Refactorings.TestClasses.Business
         [Test]
         public void GivenPremiumCalculator_Revisited_Again_After_WithVeryHighRiskPolicyHolder_ReturnsAmmountWithVeryHighRiskInsuranceMultiplier()
         {
-            var premiumCalculatorMock = new Mock<PremiumCalculator_Revisited_Again_After>();
-            premiumCalculatorMock.Setup(pc => pc.IsVeryHighRisk(It.IsAny<PolicyHolderInfo>())).Returns(true);
-            var premiumCalculator = premiumCalculatorMock.Object;
+            var premiumCalculator = Substitute.For<PremiumCalculator_Revisited_Again_After>();
+            premiumCalculator.IsVeryHighRisk(Arg.Any<PolicyHolderInfo>()).Returns(true);
 
             var result = premiumCalculator.CalculatePremium(new PolicyHolderInfo(), 10000);
 

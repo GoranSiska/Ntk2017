@@ -1,4 +1,4 @@
-﻿using Moq;
+﻿using NSubstitute;
 using NUnit.Framework;
 using System.Collections;
 
@@ -41,12 +41,12 @@ namespace Refactorings.TestClasses.Business
         [Test]
         public void GivenPerson_After_WhenSave_RepositoryIsCalled() //Integration test for entity repository elswhere
         {
-            var personRepositoryMock = new Mock<EntityRepository>();
-            var person = new Person_After(personRepositoryMock.Object);
+            var personRepository = Substitute.For<EntityRepository>();
+            var person = new Person_After(personRepository);
 
             person.Save();
 
-            personRepositoryMock.Verify(er => er.Store(person), Times.Once);
+            personRepository.Received(1).Store(person);
         }
     }
 
